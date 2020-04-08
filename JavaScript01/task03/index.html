@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>課題①-3</title>
+</head>
+<body>
+  <script>
+    'use strict';
+
+    let title = '＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n現在持っているタスクの一覧\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n';
+    let tasklists  =  ['タスク0','タスク1','タスク2'];
+    
+    function taskManagement(){
+      console.log(title);
+      
+      for(let i = 0; i < tasklists.length; i++){
+        let tasklist = i + ':' + tasklists[i];
+        console.log(tasklist);
+      }
+    }
+    
+    taskManagement();
+    let question = "";
+    function taskSelect(){
+    question = prompt('「確認・追加・削除・完了」の４つのいずれかを入力してください。');
+    console.log(question);
+      if(question === "追加" ){
+        taskAdd();
+      }else if(question != "null" ){
+        question = prompt('「確認・追加・削除・完了」の４つのいずれかを入力してください。');
+      }  else {
+      }
+    }
+    taskSelect();
+
+
+    function taskAdd(){
+      let questionAdd = prompt('タスクを入力してください。');
+ 
+      if(questionAdd != "" && questionAdd != "null"){
+        tasklists.push(questionAdd);
+        taskManagement();
+        let alert0 = alert(`新しいタスクを追加しました`);
+        taskSelect();
+      } else {
+        alert(`タスクがありません`);
+        taskSelect();
+      }
+    }
+
+ 
+
+
+
+    
+
+
+
+
+  </script>
+  
+</body>
+</html>
