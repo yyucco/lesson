@@ -3,32 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>課題①-2</title>
+  <title>課題①-1</title>
 </head>
 <body>
   <script>
     'use strict';
 
-    let question = prompt('日本の首都は？');
-      console.log(question);
-        var answer = "";
-      if('東京' === question) {
-        answer = "正解";
-  		alert(answer);
-        console.log(answer);
+    for( let i=1; i<100; i++ ){
+      if( i%15 === 0 ){
+        console.log(`FizzBuzz${i}`);
+      }else if( i%3 === 0 ){
+        console.log(`Fizz${i}`);
+      }else if( i%5 === 0 ){
+        console.log(`Buzz${i}`);
       }
-      else {
-        answer = "不正解";
-  alert(answer);
-        console.log(answer);
-      }
-
-    // if (question === 東京) {
-    //   let answer = "正解";
-    // } else{
-    //   let answer = "不正解";
-    // }
-    // alert(answer);
+    }
   </script>
   
 </body>

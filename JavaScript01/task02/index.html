@@ -10,13 +10,14 @@
     'use strict';
 
     let question = prompt('日本の首都は？');
-    let answer = "";
-    if('東京' === question) {
-      answer = "正解";
-    } else {
-      answer = "不正解";
-    }  
-    alert(`${answer}です！`);
+
+    while ('東京' != question) {
+      if (question){
+        alert(`不正解です！`);
+        question = prompt('日本の首都は？');
+      } 
+    }
+    alert(`正解です！`);
 
   </script>
   
