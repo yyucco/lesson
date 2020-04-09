@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>課題①-3</title>
+  <title>課題①-4</title>
 </head>
 <body>
   <script>
     'use strict';
 
     let title = '＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n現在持っているタスクの一覧\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n';
-    let tasklists  =  ['タスク0','タスク1','タスク2'];
+    let tasklists  =  ['[内容]内容[ジャンル]ジャンル','[内容]内容[ジャンル]ジャンル','[内容]内容[ジャンル]ジャンル'];
     
     function taskManagement(){
       console.log(title);
@@ -35,15 +35,28 @@
     taskSelect();
 
     function taskAdd(){
-      let questionAdd = prompt('タスクを入力してください。');
-      if(questionAdd === "" ) {
+      let questionAddTask = prompt('タスクを入力してください。');
+      let questionAddGenre = "";
+      let questionAdd = "";
+      if(questionAddTask === "" ){
         alert(`タスクがありません`);
-      } else if( questionAdd != null){
-        console.log(questionAdd);
-        tasklists.push(questionAdd);
-        taskManagement();
-        alert(`新しいタスクを追加しました`);
+      }else if( questionAddTask != null){
+         questionAddGenre = questionAddGenre = prompt('ジャンルを入力してください。');
+        if(questionAddGenre === "" ) {
+          alert(`ジャンルがありません`);
+        } else if( questionAddGenre != null){
+          let questionAdd = `[内容]${questionAddTask}、[ジャンル]${questionAddGenre}`;
+          console.log(questionAdd);
+          tasklists.push(questionAdd);
+          taskManagement();
+          alert(`新しいタスクを追加しました`);
+        }
       }
+
+
+
+
+
     }
 
  
