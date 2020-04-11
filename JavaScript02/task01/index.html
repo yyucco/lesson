@@ -28,23 +28,23 @@
     const output = document.getElementById("output");
     const submit = document.getElementById("submit");
     const number = /^-?[0-9]+$/;
-    let txt = "";
     function txtoutput (txt) {
       let tag = document.createElement("p");
       tag.innerHTML = txt;
       output.appendChild(tag);
     }
     submit.addEventListener("click",
-    () => {
-    const fizznum = document.getElementById("fizznum").value;
-    const buzznum = document.getElementById("buzznum").value;
+      function () {
+      const fizznum = document.getElementById("fizznum").value;
+      const buzznum = document.getElementById("buzznum").value;
         if ( fizznum.match(number) && buzznum.match(number) ){
-          for (let i = 1; i < 100; i++ ){
+          for ( let i = 1; i < 100; i++ ){
+            let txt = "";
             if( i % fizznum === 0 && i % buzznum === 0 ) {
               txt = `FizzBizz${i}`;
-            } else if (  i % fizznum === 0 ) {
+            } else if ( i % fizznum === 0 ) {
               txt = `Fizz${i}`;
-            } else if (  i % buzznum === 0 ) {
+            } else if ( i % buzznum === 0 ) {
               txt = `Bizz${i}`;
             }
             txtoutput(txt);
