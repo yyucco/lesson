@@ -6,11 +6,55 @@
   <title>課題②-1</title>
 </head>
 <body>
+	<h1>FizzBuzz問題</h1>
+
+  <table style="text-align: left;">
+    <tr>
+      <th><label for="fizznum">FizzNum:</label></th>
+      <td><input type="text" id="fizznum" name="fizznum" placeholder="整数値を入力してください"></td>
+    </tr>
+    <tr>
+      <th><label for="buzznum">BuzzNum:</label></th>
+      <td><input type="text" id="buzznum" name="buzznum" placeholder="整数値を入力してください"></td>
+    </tr>
+  </table>
+  <input type="submit" id="submit" value="送信">
+  <div id="output">
+    <p>【出力】</p>
+  </div>
+
   <script>
     'use strict';
-
-
+    const output = document.getElementById("output");
+    const submit = document.getElementById("submit");
+    const number = /^-?[0-9]+$/;
+    function txtoutput (txt) {
+      let tag = document.createElement("p");
+      tag.innerHTML = txt;
+      output.appendChild(tag);
+    }
+    submit.addEventListener("click",
+      function () {
+      const fizznum = document.getElementById("fizznum").value;
+      const buzznum = document.getElementById("buzznum").value;
+        if ( fizznum.match(number) && buzznum.match(number) ){
+          for ( let i = 1; i < 100; i++ ){
+            let txt = "";
+            if( i % fizznum === 0 && i % buzznum === 0 ) {
+              txt = `FizzBizz${i}`;
+            } else if ( i % fizznum === 0 ) {
+              txt = `Fizz${i}`;
+            } else if ( i % buzznum === 0 ) {
+              txt = `Bizz${i}`;
+            }
+            txtoutput(txt);
+          }
+        } else {
+          txt = "整数値を入力してください";
+          txtoutput(txt);
+        }
+      }
+    );
   </script>
-  
 </body>
 </html>
