@@ -50,19 +50,18 @@
         const row2 = output.rows[i+1].cells[2];
         const row2childlength = row2.children.length;
         if( row2childlength < 2 ){
-          const buttonReset = document.createElement("input");
-          buttonReset.type = "reset";
-          buttonReset.setAttribute("name","reset",);
-          buttonReset.setAttribute("value","削除");
-          row2.insertBefore(buttonReset, row2.firstChild);
-
           const buttonStatus = document.createElement("input");
       buttonStatus.type = "button";
       buttonStatus.setAttribute("name","status",);
       buttonStatus.setAttribute("value","作業中");
       buttonStatus.classList.add('on');
-          row2.insertBefore(buttonStatus, row2.firstChild);
-          console.log(row2.firstChild);
+          row2.insertBefore(buttonStatus, row2.lastChild);
+
+          const buttonReset = document.createElement("input");
+      buttonReset.type = "reset";
+      buttonReset.setAttribute("name","reset",);
+      buttonReset.setAttribute("value","削除");
+          row2.insertBefore(buttonReset, row2.lastChild);
         }
       });
     }
