@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>課題③-2</title>
+  <title>課題③-1</title>
 </head>
 <body>
   <h1>ToDoリスト</h1>
@@ -25,13 +25,13 @@
     const taskadd = document.getElementById("taskadd");
     const todos = [];
 
-    function displayTodos( ary ){
-        function rowcreate(){
+    function rowcreate(){
       let row = output.insertRow(-1);
       row.insertCell(-1);
       row.insertCell(-1);
       row.insertCell(-1);
     }
+    function displayTodos( ary ){
  
       ary.forEach(function(val, i) {
       // 一番初めにth作成
@@ -57,10 +57,10 @@
           row2.insertBefore(buttonReset, row2.firstChild);
 
           const buttonStatus = document.createElement("input");
-      buttonStatus.type = "button";
-      buttonStatus.setAttribute("name","status",);
-      buttonStatus.setAttribute("value","作業中");
-      buttonStatus.classList.add('on');
+          buttonStatus.type = "button";
+          buttonStatus.setAttribute("name","status",);
+          buttonStatus.setAttribute("value","作業中");
+          buttonStatus.classList.add('on');
           row2.insertBefore(buttonStatus, row2.firstChild);
           console.log(row2.firstChild);
         }
