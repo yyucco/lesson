@@ -3,9 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>課題③-1</title>
+  <title>課題③-2</title>
 </head>
 <body>
+  <h1>ToDoリスト</h1>
+  <input type="checkbox" id="checkbox01" name="checkbox01" checked>すべて
+  <input type="checkbox" id="checkbox02" name="checkbox02">作業中
+  <input type="checkbox" id="checkbox03" name="checkbox03">完了
 
+  <table id="output">
+  </table>
+
+  <h2>新規タスクの追加</h2>
+  <input type="text" id="taskadd" name="taskadd">
+  <input type="submit" id="submit" name="submit" value="送信">
+
+  <script>
+    'use strict';
+    const output = document.getElementById("output");
+    const submit = document.getElementById("submit");
+    const taskadd = document.getElementById("taskadd");
+    const todos = [];
+
+    function rowcreate(){
+      let row = output.insertRow(-1);
+      row.insertCell(-1);
+      row.insertCell(-1);
+      row.insertCell(-1);
+    }
+    function displayTodos( ary ){
+
+      ary.forEach(function(val, i) {
+      // 一番初めにth作成
+        if( ary.length === 1 ){
+          rowcreate();
+          output.rows[i].cells[0].innerHTML = "ID";
+          output.rows[i].cells[1].innerHTML = "コメント";
+          output.rows[i].cells[2].innerHTML = "状態";
+        } 
+        
+        output.rows[i+1].cells[0].innerHTML = i;
+        output.rows[i+1].cells[1].innerHTML = val.task;
+
+        // 状態ボタン作成
+        const row2 = output.rows[i+1].cells[2];
+        const row2childlength = row2.children.length;
+        if( row2childlength < 2 ){
+          let buttonReset = document.createElement("input");
+          buttonReset.type = "reset";
+          buttonReset.setAttribute("name",`reset${i}`);
+          buttonReset.setAttribute("value","削除");
+          buttonReset.classList.add('reset');
+          row2.insertBefore(buttonReset, row2.firstChild);
+
+          let buttonStatus = document.createElement("input");
+          buttonStatus.type = "button";
+          buttonStatus.setAttribute("name",`status${i}`);
+          buttonStatus.setAttribute("value","作業中");
+          buttonStatus.classList.add('on');
+          row2.insertBefore(buttonStatus, row2.firstChild);
+        }
+
+
+
+      });
+    }
+ 
+    submit.addEventListener("click",
+    function () {
+      if ( taskadd.value != "" ) {
+
+      // todos配列に入れる
+      let button = "作業中";
+      let comment = taskadd.value;
+      let todo  = { task:comment, status:button };
+      todos.push(todo);
+
+      rowcreate();  
+      displayTodos( todos );
+
+      taskadd.value = "";
+      }
+    });
+
+    //削除
+    const buttonReset = document.querySelectorAll('.reset');
+    output.addEventListener('click', (event) => {
+      const targetBtn = event.target;
+      const resetRow = targetBtn.parentNode.parentNode;
+      resetRow.remove();
+      const targetNum = resetRow.cells[0].innerHTML;
+      todos.splice(targetNum, 1);
+      displayTodos( todos );
+      if( todos.length === 0 ){
+          output.rows[0].remove();
+        }
+    });
+    
+
+
+  </script>
 </body>
 </html>
