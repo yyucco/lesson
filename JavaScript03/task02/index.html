@@ -92,9 +92,9 @@
 
     //削除
     function reset (event) {
-      let resetId = event.target.id;
-      resetId = resetId.replace('reset','');
-      todos.splice(resetId, 1);
+      const resetId = event.target.id;
+      const resetNum = resetId.replace('reset','');
+      todos.splice(resetNum, 1 );
       displayTodos(todos);
     }
   </script>
