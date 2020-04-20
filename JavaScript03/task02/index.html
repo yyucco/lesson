@@ -7,9 +7,14 @@
 </head>
 <body>
   <h1>ToDoリスト</h1>
-  <input type="checkbox" id="checkbox01" name="checkbox01" checked>すべて
-  <input type="checkbox" id="checkbox02" name="checkbox02">作業中
-  <input type="checkbox" id="checkbox03" name="checkbox03">完了
+  <div id="checkbox">
+    <input type="checkbox" class="checkbox01" name="checkbox01" checked>
+    <label for="checkbox01" class="checkbox01">すべて</label>
+    <input type="checkbox" class="checkbox02" name="checkbox02">
+    <label for="checkbox02" class="checkbox02">作業中</label>
+    <input type="checkbox" class="checkbox03" name="checkbox03">
+    <label for="checkbox03" class="checkbox03">完了</label>
+  </div>
 
   <table id="output">
   </table>
@@ -17,91 +22,81 @@
   <h2>新規タスクの追加</h2>
   <input type="text" id="taskadd" name="taskadd">
   <input type="submit" id="submit" name="submit" value="送信">
-
   <script>
-    'use strict';
     const output = document.getElementById("output");
     const submit = document.getElementById("submit");
     const taskadd = document.getElementById("taskadd");
     const todos = [];
 
-    function rowcreate(){
-      let row = output.insertRow(-1);
+    function rowCreate () {
+      const row = output.insertRow(-1);
       row.insertCell(-1);
       row.insertCell(-1);
       row.insertCell(-1);
     }
-    function displayTodos( ary ){
-
+    function rowRemove () {
+      output.deleteRow(-1);
+    }
+    function displayTodos ( ary ) {
+      if( ary.length === 1 && output.rows.length === 0 ){
+        rowCreate();
+        rowCreate();
+      } else if( ary.length === 0  && output.rows.length === 2 ) { 
+        rowRemove();
+        rowRemove();
+      } else if( ary.length - output.rows.length === 0  ) { 
+        rowCreate();
+      } else if( ary.length - output.rows.length === -2 ) { 
+        rowRemove(); 
+      }
       ary.forEach(function(val, i) {
-      // 一番初めにth作成
-        if( ary.length === 1 ){
-          rowcreate();
-          output.rows[i].cells[0].innerHTML = "ID";
-          output.rows[i].cells[1].innerHTML = "コメント";
-          output.rows[i].cells[2].innerHTML = "状態";
-        } 
-        
-        output.rows[i+1].cells[0].innerHTML = i;
-        output.rows[i+1].cells[1].innerHTML = val.task;
+        output.rows[0].cells[0].innerHTML = "ID";
+        output.rows[0].cells[1].innerHTML = "コメント";
+        output.rows[0].cells[2].innerHTML = "状態";
 
-        // 状態ボタン作成
-        const row2 = output.rows[i+1].cells[2];
-        const row2childlength = row2.children.length;
-        if( row2childlength < 2 ){
-          let buttonReset = document.createElement("input");
+        output.rows[i+1].cells[0].innerHTML = val.id;
+        output.rows[i+1].cells[1].innerHTML = val.task;
+        const cells2 = output.rows[i+1].cells[2]
+        if (!cells2.hasChildNodes()){
+          const buttonReset = document.createElement("input");
           buttonReset.type = "reset";
-          buttonReset.setAttribute("name",`reset${i}`);
+          buttonReset.setAttribute("name",`reset${val.id}`);
+          buttonReset.setAttribute("id",`reset${val.id}`);
           buttonReset.setAttribute("value","削除");
           buttonReset.classList.add('reset');
-          row2.insertBefore(buttonReset, row2.firstChild);
+          buttonReset.addEventListener('click',reset,false);
+          cells2.appendChild(buttonReset);
 
-          let buttonStatus = document.createElement("input");
+          const buttonStatus = document.createElement("input");
           buttonStatus.type = "button";
-          buttonStatus.setAttribute("name",`status${i}`);
+          buttonStatus.setAttribute("name",`status${val.id}`);
+          buttonStatus.setAttribute("id",`status${val.id}`);
           buttonStatus.setAttribute("value","作業中");
-          buttonStatus.classList.add('on');
-          row2.insertBefore(buttonStatus, row2.firstChild);
+          buttonStatus.classList.add('status');
+          cells2.appendChild(buttonStatus);
         }
-
-
-
       });
     }
- 
-    submit.addEventListener("click",
-    function () {
+
+    submit.addEventListener( "click", function () {
       if ( taskadd.value != "" ) {
-
-      // todos配列に入れる
-      let button = "作業中";
-      let comment = taskadd.value;
-      let todo  = { task:comment, status:button };
-      todos.push(todo);
-
-      rowcreate();  
-      displayTodos( todos );
-
-      taskadd.value = "";
+        // todos配列に入れる
+        const button = "作業中";
+        const comment = taskadd.value;
+        const todo  = { id:todos.length, task:comment, status:button };
+        todos.push(todo);
+        displayTodos( todos );
+        taskadd.value = "";
       }
     });
 
     //削除
-    const buttonReset = document.querySelectorAll('.reset');
-    output.addEventListener('click', (event) => {
-      const targetBtn = event.target;
-      const resetRow = targetBtn.parentNode.parentNode;
-      resetRow.remove();
-      const targetNum = resetRow.cells[0].innerHTML;
-      todos.splice(targetNum, 1);
-      displayTodos( todos );
-      if( todos.length === 0 ){
-          output.rows[0].remove();
-        }
-    });
-    
-
-
+    function reset (event) {
+      let resetId = event.target.id;
+      resetId = resetId.replace('reset','');
+      todos.splice(resetId, 1);
+      displayTodos(todos);
+    }
   </script>
 </body>
 </html>
