@@ -3,9 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>課題③-1</title>
+  <title>課題③-4</title>
+  <style>
+    tr {margin-bottom: 10px;}
+  </style>
 </head>
 <body>
+  <h1>ToDoリスト</h1>
+  <div id="checkbox">
+    <input type="checkbox" class="checkbox01" name="checkbox01" checked>
+    <label for="checkbox01" class="checkbox01">すべて</label>
+    <input type="checkbox" class="checkbox02" name="checkbox02">
+    <label for="checkbox02" class="checkbox02">作業中</label>
+    <input type="checkbox" class="checkbox03" name="checkbox03">
+    <label for="checkbox03" class="checkbox03">完了</label>
+  </div>
 
+  <table id="output" cellspacing="5">
+  </table>
+
+  <h2>新規タスクの追加</h2>
+  <input type="text" id="taskadd" name="taskadd">
+  <input type="submit" id="submit" name="submit" value="送信">
+  <script>
+    const output = document.getElementById("output");
+    const submit = document.getElementById("submit");
+    const taskadd = document.getElementById("taskadd");
+    let todos = [];
+    const checkbox = document.getElementById('checkbox').children;
+    const checkbox01 = document.getElementsByClassName('checkbox01');
+    const checkbox02 = document.getElementsByClassName('checkbox02');
+    const checkbox03 = document.getElementsByClassName('checkbox03');
+
+    function rowCreate (i) {
+      const row = output.insertRow(i);
+      row.insertCell(-1);
+      row.insertCell(-1);
+      row.insertCell(-1);
+    }
+    function rowRemove () {
+      output.deleteRow(-1);
+    }
+    function displayTodos ( ary ) {
+      // チェックボックスでフィルター
+      ary =  ary.filter( function( value, index, array ) {
+      if ( checkbox02[0].checked ) {
+          return value.status === "作業中";
+        } else if ( checkbox03[0].checked ) {
+          return value.status === "完了";
+        } else if ( checkbox01[0].checked) {
+          return array;
+        }
+      });
+      if (output.hasChildNodes()){
+        // 子ノードを全削除
+        for (let i=output.childNodes.length-1; i>=0; i--) {
+          output.removeChild(output.childNodes[i]);
+        }
+      	}
+        for ( let i = 0; i < ary.length+1; i++ ) {
+          rowCreate (i);
+        }
+      ary.forEach(function(val, i) {
+        
+        output.rows[0].cells[0].innerHTML = "ID";
+        output.rows[0].cells[1].innerHTML = "コメント";
+        output.rows[0].cells[2].innerHTML = "状態";
+
+        output.rows[i+1].cells[0].innerHTML = val.id;
+        output.rows[i+1].cells[1].innerHTML = val.task;
+        const cells2 = output.rows[i+1].cells[2];
+        if (!cells2.hasChildNodes()){
+          const buttonStatus = document.createElement("input");
+          buttonStatus.type = "button";
+          buttonStatus.setAttribute("name",`status${val.id}`);
+          buttonStatus.setAttribute("id",`status${val.id}`);
+          buttonStatus.setAttribute("value",`${val.status}`);
+          buttonStatus.classList.add('status');
+          buttonStatus.addEventListener('click',statusevent,false);
+          cells2.appendChild(buttonStatus);
+
+          const buttonReset = document.createElement("input");
+          buttonReset.type = "reset";
+          buttonReset.setAttribute("name",`reset${val.id}`);
+          buttonReset.setAttribute("id",`reset${val.id}`);
+          buttonReset.setAttribute("value","削除");
+          buttonReset.classList.add('reset');
+          buttonReset.addEventListener('click',resetevent,false);
+          cells2.appendChild(buttonReset);
+        }  else {
+         document.getElementById(`status${val.id}`).value = val.status;
+        }
+      });
+    }
+
+    submit.addEventListener( "click", function () {
+      if ( taskadd.value != "" ) {
+        // todos配列に入れる
+        const button = "作業中";
+        const comment = taskadd.value;
+        for ( let i = 0; i < todos.length; i++ ) {
+          todos[i].id = i;
+        }
+        let todo  = { id:todos.length, task:comment, status:button };
+        todos.push(todo);
+        displayTodos( todos );
+        taskadd.value = "";
+      }
+    });
+
+    //削除
+    function resetevent (event) {
+      const resetId = event.target.id;
+      const resetNum = resetId.replace('reset','');
+      todos.splice(resetNum, 1 );
+      for ( let i = 0; i < todos.length; i++ ) {
+          todos[i].id = i;
+      }
+      displayTodos( todos );
+    }
+
+    //状態ボタン
+    function statusevent (event) {
+      const statusId = event.target.id;
+      const statusNum = statusId.replace('status','');
+      let todosStatus = todos[statusNum].status;
+      if (todosStatus ===  '作業中' ){
+        todos[statusNum].status = '完了';
+      } else if (todosStatus ===  '完了' ){
+        todos[statusNum].status = '作業中';
+      }
+      displayTodos( todos );
+    }
+
+    function statusevent (event) {
+      const statusId = event.target.id;
+      console.log(event.target);
+      const statusNum = statusId.replace('status','');
+      let todosStatus = todos[statusNum].status;
+      if (todosStatus ===  "作業中" ){
+        todos[statusNum].status = "完了";
+      } else if (todosStatus ===  "完了" ){
+        todos[statusNum].status = "作業中";
+      }
+      displayTodos( todos );
+    }
+
+    //表示非表示    
+    function checkboxEvent ( checkboxNum ){
+      for ( let i = 0; i < checkboxNum.length; i++ ) {
+        checkboxNum[i].addEventListener('click', (event) => {
+        let targetBtn = event.target;
+          if (targetBtn.tagName === "LABEL"){
+            targetBtn = targetBtn.previousElementSibling;
+          }
+          for ( let i = 0; i < checkbox.length; i++ ) {
+            checkbox[i].checked = false;
+          }
+          targetBtn.checked = true;
+          displayTodos( todos );
+        });
+      }
+    }
+    checkboxEvent ( checkbox01 );
+    checkboxEvent ( checkbox02 );
+    checkboxEvent ( checkbox03 );
+
+  </script>
 </body>
 </html>
