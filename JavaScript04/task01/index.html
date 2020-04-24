@@ -4,9 +4,122 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>課題④-1</title>
+  <style>
+    #text { 
+      border-top: 1px solid #000; 
+      border-bottom: 1px solid #000;
+      padding: 10px 0;
+      margin: 20px 0;
+    }
+    #category {
+      font-weight: bold;
+    }
+    #btnarea >* { 
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
-<body
+<body>
+  <h1 id="title"></h1>
+  <div id="category"></div>
+  <div id="text"></div>
+  <div id="btnarea"> </div>
+
+ 
   <script>
+    const title = document.getElementById("title");
+    const category = document.getElementById("category");
+    const text = document.getElementById("text");
+    const btnarea = document.getElementById("btnarea");
+    const count = { true:0, false:0 };
+    const startBtn = document.createElement('button');
+
+    //ボタンをリセット
+    function btnReset(){
+      while( btnarea.firstChild ){
+        btnarea.removeChild( btnarea.firstChild );
+      }
+    }
+
+    //開始前
+    function start(){
+      btnReset();
+      title.textContent = "ようこそ";
+      text.textContent = "以下のボタンをクリック";
+      startBtn.textContent = `開始`;
+      btnarea.appendChild(startBtn);
+    }
+    start();
+    
+    startBtn.addEventListener('click', () => {
+      //取得中
+      title.textContent = "取得中";
+      text.textContent = "少々お待ちください";
+      btnarea.removeChild(startBtn);
+      //問題
+      fetch('https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple')
+   
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return Promise.reject(new Error('エラーです！'));
+        }
+      })
+      .then(json => {
+        let resultsNum = 0;
+        //問題
+        function answersevnt() {
+          const api = json.results[resultsNum];
+          title.textContent = `問題${resultsNum+1}`;
+          text.innerHTML = api.question;
+          category.innerHTML = "[ジャンル]" + api.category + "<br>" +  "[難易度]" +
+          api.difficulty;
+          //解答ボタン作成
+          let answers = api.incorrect_answers;
+          answers.push(api.correct_answer);
+          for ( let i = answers.length - 1; i >= 0; i-- ) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [answers[i], answers[j]] = [answers[j], answers[i]];
+          }
+          btnReset();
+          for( let i = 0; i < answers.length; i++ ){
+            const answerBtn = document.createElement('button');
+            answerBtn.textContent = answers[i];
+            btnarea.appendChild(answerBtn);
+            answerBtn.addEventListener('click', () => { 
+              if ( answerBtn.innerHTML === api.correct_answer ){
+                count.true += 1;
+              } else { count.false += 1; }
+              resultsNum += 1;
+              if ( resultsNum < json.results.length ) {
+                answersevnt();
+              } else {
+                //問題終了
+                title.textContent = `あなたの正解数は${count.true}です`;
+                category.innerHTML = "";
+                text.innerHTML = "再度チャレンジしたい場合は下記をクリック!!";
+                btnReset();
+                count.true = 0;
+                count.false = 0;
+                const returnBtn = document.createElement('button');
+                returnBtn.textContent = "ホームに戻る";
+                btnarea.appendChild(returnBtn);
+                returnBtn.addEventListener('click', () => { 
+                  start();
+                });
+              }
+            });
+    
+          }
+        }
+        answersevnt();
+      })
+      .catch(e => {
+        title.textContent = e.message;
+      });
+    });
   </script>
 </body>
 </html>
