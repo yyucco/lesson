@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue基礎chapter01</title>
+  <!-- 開発バージョン、便利なコンソールの警告が含まれています -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+<div id="app">
+  <p>{{count}}回</p>
+  <button v-on:click="countUp">カウント</button>
+</div>
+</body>
+<script>
+  new Vue ({
+    el:"#app",
+    data:{
+      count:0
+    },
+    methods:{
+      countUp: function (){
+        this.count++;
+      }
+    }
+  })
+</script>
+</html>

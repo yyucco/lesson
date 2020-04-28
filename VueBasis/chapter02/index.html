@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue基礎chapter02</title>
+  <!-- 開発バージョン、便利なコンソールの警告が含まれています -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+  <div id="app">
+    <p>{{myText}}</p>
+    <p v-text="myText"></p>
+    <p v-html="myText"></p>
+  </div>
+  <hr>
+  <div id="app2">
+    <p>{{myNumber}}</p>
+    <p>{{myText}}</p>
+    <p>{{myBool}}</p>
+  </div>
+  <hr>
+  <div id="app3">
+    <p>{{ myPrice*1.08 }}</p>
+    <p>{{ "こんにちわ" + myName }}</p>
+    <p>{{ myName.substr(0,1) }}</p>
+  </div>
+  <hr>
+  <div id="app4">
+    {{$data}}
+    <p>{{ myArray }}</p>
+    <p>{{ myArray[0] }}</p>
+  </div>
+  <hr>
+</body>
+<script>
+  new Vue ({
+    el:'#app',
+    data:{
+      myText:'<h1>Hello!</h1>'
+    }
+  })
+  new Vue ({
+    el:'#app2',
+    data:{
+      myNumber:12345,
+      myText:'Hello',
+      myBool:true
+    }
+  })
+  new Vue ({
+    el:'#app3',
+    data:{
+      myPrice:500,
+      myName:'桃太郎'
+    }
+  })
+  new Vue ({
+    el:'#app4',
+    data:{
+      myArray:['配列1','配列2','配列3']
+    }
+  })
+
+</script>
+</html>

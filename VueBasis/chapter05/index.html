@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue基礎chapter05</title>
+  <!-- 開発バージョン、便利なコンソールの警告が含まれています -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+  <div id="app1">
+    <p>{{ count }}です</p>
+    <button v-on:click="countUp">カウント</button>
+  </div>
+  <hr>
+  <div id="app2">
+    <button v-on:click="countUp2" v-bind:disabled="isClick">いいね</button>
+  </div>
+  <hr>
+  <div id="app3">
+    <p>{{ count }}です</p>
+    <button v-on:click="countUp3(3)">+3</button>
+    <button v-on:click="countUp3(10)">+10</button>
+    <button v-on:click="countUp3(100)">+100</button>
+  </div>
+  <hr>
+
+</body>
+<script>
+  new Vue ({
+    el: '#app1',
+    data:{
+      count:0
+    },
+    methods:{
+      countUp: function(){
+        this.count++;
+      }
+
+    }
+  })
+  function iine() {
+    alert("いいね");
+  }
+  new Vue ({
+    el: '#app2',
+    data:{
+      isClick:false
+    },
+    methods:{
+      countUp2: function(){
+        this.isClick = true;
+        iine();
+      }
+    }
+  })
+  new Vue ({
+    el: '#app3',
+    data:{
+      count:0
+    },
+    methods:{
+      countUp3: function( value ){
+        this.count += value;
+      }
+
+    }
+  })
+
+</script>
+</html>

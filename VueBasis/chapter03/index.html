@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue基礎chapter03</title>
+  <!-- 開発バージョン、便利なコンソールの警告が含まれています -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+  <div id="app1">
+    <img v-bind:src="fileName" alt="">
+  </div>
+  <hr>
+  <div id="app2">
+    <a v-bind:href="myURL">リンク指定</a>
+  </div>
+  <hr>
+  <div id="app3">
+    <p v-bind:style="{ color:myColor,fontSize:mySize }">テキスト</p>
+  </div>
+  <hr>
+  <div id="app4">
+    <p v-bind:class="[ myClass2, myClass1 ]">テキスト</p>
+    <p v-bind:class="{ 'myClass2':true }">テキスト</p>
+  </div>
+  <hr>
+</body>
+<script>
+  new Vue({
+    el:'#app1',
+    data:{
+      fileName:'dummy.png'
+    }
+  })
+  new Vue({
+    el:'#app2',
+    data:{
+      myURL:'https://jp.vuejs.org/v2/guide/'
+    }
+  })
+  new Vue({
+    el:'#app3',
+    data:{
+      myColor:'#E08000',
+      mySize: '200%'
+    }
+  })
+  new Vue({
+    el:'#app4',
+    data:{
+      myClass1:'myClass1',
+      myClass2:'myClass2'
+    }
+  })
+
+
+</script>
+</html>

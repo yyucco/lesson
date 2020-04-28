@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>QuizApp</title>
+</head>
+<body>
+    <div id="preparation">
+        <h2>準備中</h2>
+        <div>
+            <hr>
+            少々お待ちください
+            <hr>
+        </div>
+    </div>
+    <div id="quiz">
+        <h2>
+            問題<span id="title"></span>
+        </h2>
+        <div>
+            <div>
+                [ジャンル]<span id="category"></span>
+            </div>
+            <div>
+                [難易度]<span id="difficulty"></span>
+            </div>
+        </div>
+        <hr>
+        <div id="question"></div>
+        <hr>
+        <div id="answers"></div>
+        <div id='button'></div>
+    </div>
+    <div id="result">
+        <h2>
+            あなたの正答数は<span id="correct-answers-num"></span>です！！
+        </h2>
+        <hr>
+        <div>再度チャレンジしたい場合は以下をクリック</div>
+        <hr>
+        <button onclick="location.href = './index.html'">ホームに戻る</button>
+    </div>
+
+    <script src="js/functions.js"></script>
+    <script src="js/Quiz.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

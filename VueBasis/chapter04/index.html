@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue基礎chapter04</title>
+  <!-- 開発バージョン、便利なコンソールの警告が含まれています -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+  <div id="app1">
+    <input v-model.lazy.trim.number="myName" placeholder="name" type="text">
+    <p>私の名前は{{ myName }}です</p>
+  </div>
+  <hr>
+  <div id="app2">
+    <label><input v-model="myChecks" type="checkbox" value="checkbox1">選択1</label>
+    <label><input v-model="myChecks" type="checkbox" value="checkbox2">選択2</label>
+    <label><input v-model="myChecks" type="checkbox" value="checkbox3">選択3</label>
+    <p>選択したのは{{ myChecks }}です</p>
+  </div>
+  <hr>
+  <div id="app3">
+    <label><input v-model="myAgree" type="checkbox">同意します</label>
+    <button v-bind:disabled="myAgree==false">送信</button>
+  </div>
+  <hr>
+  <div id="app4">
+    <label><input v-model="myChecks" type="radio" value="checkbox1">選択1</label>
+    <label><input v-model="myChecks" type="radio" value="checkbox2">選択2</label>
+    <label><input v-model="myChecks" type="radio" value="checkbox3">選択3</label>
+    <p>選択したのは{{ myChecks }}です</p>
+  </div>
+  <hr>
+  <div id="app5">
+    <label><input v-model="myChecks" type="radio" value="dummy01.png">選択1</label><br>
+    <label><input v-model="myChecks" type="radio" value="dummy02.png">選択2</label><br>
+    <img v-bind:src="myChecks" alt="">
+  </div>
+  <hr>
+  <div id="app6">
+    <select v-model="myColor">
+      <option disabled value="">選択してください</option>
+      <option>red</option>
+      <option>green</option>
+      <option>blue</option>
+    </select>
+    <p v-bind:style="{ color:myColor }">選択したのは{{ myColor }}です</p>
+  </div>
+  <hr>
+
+</body>
+<script>
+  new Vue ({
+    el: '#app1',
+    data:{
+      myName:''
+    }
+  })
+  new Vue ({
+    el: '#app2',
+    data:{
+      myChecks:[ "checkbox1" ]
+    }
+  })
+  new Vue ({
+    el: '#app3',
+    data:{
+      myAgree:false
+    }
+  })
+  new Vue ({
+    el: '#app4',
+    data:{
+      myChecks:'checkbox1'
+    }
+  })
+  new Vue ({
+    el: '#app5',
+    data:{
+      myChecks:''
+    }
+  })
+  new Vue ({
+    el: '#app6',
+    data:{
+      myColor:''
+    }
+  })
+
+
+
+</script>
+</html>
