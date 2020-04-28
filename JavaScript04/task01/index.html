@@ -4,9 +4,127 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>課題④-1</title>
+  <style>
+    #text { 
+      border-top: 1px solid #000; 
+      border-bottom: 1px solid #000;
+      padding: 10px 0;
+      margin: 20px 0;
+    }
+    #category {
+      font-weight: bold;
+    }
+    #btnArea >* { 
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
-<body
+<body>
+  <h1 id="title"></h1>
+  <div id="category"></div>
+  <div id="text"></div>
+  <div id="btnArea"> </div>
+
+ 
   <script>
+    const title = document.getElementById("title");
+    const category = document.getElementById("category");
+    const text = document.getElementById("text");
+    const btnArea = document.getElementById("btnArea");
+    const count = { true:0 };
+    const startBtn = document.createElement('button');
+
+    //ボタンをリセット
+    function btnReset(){
+      while( btnArea.firstChild ){
+        btnArea.removeChild( btnArea.firstChild );
+      }
+    }
+
+    //開始前
+    function start(){
+      btnReset();
+      title.textContent = "ようこそ";
+      text.textContent = "以下のボタンをクリック";
+      startBtn.textContent = `開始`;
+      btnArea.appendChild(startBtn);
+    }
+
+        //問題
+        function questionCreat ( date, index ) {
+          const api = date.results[index];
+          title.textContent = `問題${index+1}`;
+          text.innerHTML = api.question;
+          category.innerHTML = "[ジャンル]" + api.category + "<br>" +  "[難易度]" +
+          api.difficulty;
+          //解答ボタン作成
+          const answers = api.incorrect_answers;
+          answers.push(api.correct_answer);
+          for ( let i = answers.length - 1; i >= 0; i-- ) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [answers[i], answers[j]] = [answers[j], answers[i]];
+          }
+          btnReset();
+          answers.forEach( ( val,i ) => {
+            const answerBtn = document.createElement('button');
+            console.log( answers);
+            answerBtn.textContent = answers[i];
+            btnArea.appendChild(answerBtn);
+            answerBtn.addEventListener('click', () => { 
+              index++;
+              if ( answerBtn.innerHTML === api.correct_answer ){
+                count.true++;
+              } 
+              if ( index < date.results.length ) {
+                questionCreat ( date, index );
+              } 
+              else {
+                questionEnd ();
+              }
+            });
+          });
+        }
+        //問題終了
+        function questionEnd (){
+          title.textContent = `あなたの正解数は${count.true}です`;
+          category.innerHTML = "";
+          text.innerHTML = "再度チャレンジしたい場合は下記をクリック!!";
+          btnReset();
+          count.true = 0;
+          count.false = 0;
+          const returnBtn = document.createElement('button');
+          returnBtn.textContent = "ホームに戻る";
+          btnArea.appendChild(returnBtn);
+          returnBtn.addEventListener('click', () => { 
+            start();
+          });
+        }
+    start();
+    
+    startBtn.addEventListener('click', () => {
+      //取得中
+      title.textContent = "取得中";
+      text.textContent = "少々お待ちください";
+      btnArea.removeChild(startBtn);
+      //問題
+      fetch('https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple')
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return Promise.reject(new Error('エラーです！'));
+        }
+      })
+      .then(json => {
+        let resultsNum = 0;
+        questionCreat(json,resultsNum);
+
+      })
+      .catch(e => {
+        title.textContent = e.message;
+      });
+    });
   </script>
 </body>
 </html>
