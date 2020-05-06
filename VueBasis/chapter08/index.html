@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue基礎chapter08</title>
+  <!-- 開発バージョン、便利なコンソールの警告が含まれています -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+<div id="app">
+  <input type="number" v-model.number="price" step="100">円<br>
+  <input type="number" v-model.number="count" step="1">個<br>
+  <p>合計{{ sum }}円</p>
+  <p>消費税価格{{ taxIncluded }}円</p>
+</div>
+<hr>
+<div id="app2">
+  <textarea v-model="myTxt" ></textarea>
+  <p v-bind:style="{ color:computedColor }">残り{{ remaining }}文字です</p>
+</div>
+<hr>
+<div id="app3">
+  <ul>
+    <input type="text" v-model="findWord">
+    <li v-for="item in findItem">{{ item }}</li>
+  </ul>
+</div>
+<hr>
+<div id="app4">
+  <p v-bind:style="{background:mixColor}" >{{ mixColor }}</p>
+  <label>R:0<input type="range" min="0" max="255" v-model="R">255</label><br>
+  <label>G:0<input type="range" min="0" max="255" v-model="G">255</label><br>
+  <label>B:0<input type="range" min="0" max="255" v-model="B">255</label><br>
+</div>
+</body>
+<script>
+  new Vue ({
+    el:"#app",
+    data:{
+      count:1,
+      price:100  
+    },
+  computed:{
+      sum: function(){
+        return Math.floor(this.price * this.count);
+      },
+      taxIncluded: function(){
+        return Math.floor(this.sum * 1.08);
+
+      }
+    }
+  })
+
+  new Vue ({
+    el:"#app2",
+    data:{
+      myTxt:"",
+    },
+    computed:{
+      remaining: function(){
+        return 120 - this.myTxt.length;
+      },
+      computedColor: function(){
+        col = "green";
+        if( this.remaining < 20 ){
+          col = "orange";
+        }
+        if( this.remaining < 1 ){
+          col = "red";
+        }
+        return col;
+      }
+    }
+  })
+  new Vue ({
+    el:"#app3",
+    data:{
+      findWord:"",
+      items:['桃太郎','花咲かじいさん','浦島太郎','かぐや姫','かちかち山太郎']
+    },
+    computed:{
+      findItem: function (){
+        if(this.findWord){
+          return this.items.filter(function (value) {
+            return (value.indexOf(this.findWord) > -1);
+          },this);
+        } else {
+          return this.items;
+        }
+      }
+    }
+  })  
+  new Vue ({
+    el:'#app4',
+    data:{
+      R:255,
+      G:255,
+      B:255
+    },
+    computed:{
+      mixColor:function(){
+        return "RGB( " + this.R + ","  + this.G + "," + this.B  + ")";
+      }
+    }
+  })
+
+</script>
+</html>

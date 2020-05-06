@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue基礎chapter08</title>
+  <!-- 開発バージョン、便利なコンソールの警告が含まれています -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+  <div id="app">
+    <p>禁止文字「{{ forbiddenTxt }}」</p>
+    <textarea v-model="inputText"></textarea>
+  </div>
+  <hr>
+  <div id="app2">
+    <p>あと{{ restSec }}秒です</p>
+    <button v-on:click="startTimer()" >Start</button>
+   </div> 
+</body>
+<script>
+  new Vue({
+    el:'#app',
+    data:{
+      forbiddenTxt:'だめ',
+      inputText:''
+    },
+    watch:{
+      inputText: function() {
+        var pos = this.inputText.indexOf(this.forbiddenTxt);
+        if( pos >= 0 ) {
+          alert( this.forbiddenTxt + 'は入力禁止');
+          this.inputText = this.inputText.substr(0,pos);
+        }
+      }
+    }
+  })
+  new Vue({
+    el:'#app2',
+    data:{
+      restSec:5,
+      timerObj:null
+    },
+    methods:{
+      startTimer:function () {
+        this.restSec = 5;
+        this.timerObj = setInterval(()=>{this.restSec--},1000);
+        
+      }
+    },
+    watch:{
+      restSec:function(){
+        if(this.restSec <= 0){
+          alert("制限時間");
+          clearInterval(this.timerObj);
+        }
+      }
+    }
+  })
+</script>
+</html>
