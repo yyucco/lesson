@@ -1,17 +1,19 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Hellow World！！"/>
+    <vue-header></vue-header>
+    <vue-form></vue-form>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import VueHeader from './components/header.vue'
+import VueForm from './components/form.vue'
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    VueHeader,
+    VueForm
   }
 }
 </script>
@@ -23,6 +25,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
