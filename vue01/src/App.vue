@@ -8,7 +8,7 @@
 
 <script>
 import VueHeader from './components/header.vue'
-import VueForm from './components/form.vue'
+import VueForm from './components/form1.vue'
 
 export default {
   components: {
