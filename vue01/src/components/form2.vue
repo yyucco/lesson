@@ -10,12 +10,12 @@
           <p>現在、生命保険に加入されていますか？</p>
           <label v-for="( item, i ) in itemsYesNo" :key="i"><input type="radio" :value="item" v-model="question03">{{ item }}</label>
         </div><!-- question -->
-        <div class="question" v-if="question03">
+        <div class="question" v-if="this.question03 === 'はい'">
           <p>現在、入院中ですか？</p>
           <label v-for="( item, i ) in itemsYesNo" :key="i"><input type="radio" :value="item" v-model="question04">{{ item }}</label>
         </div> 
         <!-- question -->
-        <div class="question" v-if="question04">
+        <div class="question" v-if="this.question04 === 'はい'">
           <p>過去5年以内に、入院したことはありますか？</p>
           <label v-for="( item, i ) in itemsYesNo" :key="i"><input type="radio" :value="item" v-model="question05">{{ item }}</label>
         </div> 
