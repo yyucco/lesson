@@ -1,8 +1,21 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import App from './App.vue';
+import { routes } from './routes';
+import store from './store/store';
+import { sync } from 'vuex-router-sync'
 
-Vue.config.productionTip = false
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+  routes
+});
+
+sync(store, router);
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+  el: '#app',
+  router,
+  store,
+  render: h => h(App)
+})
