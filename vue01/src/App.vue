@@ -2,17 +2,27 @@
   <div id="app">
     <vue-header></vue-header>
     <router-view></router-view>
+
   </div>
 </template>
 
 <script>
-import VueHeader from './components/header.vue'
-
+import VueHeader from './components/header.vue';
+// import { mapState } from 'vuex';
 
 export default {
   components: {
     VueHeader
-  }
+  },
+ computed: {
+    // message () {
+    //   return this.$store.state.counter.question02.y;
+    // }
+ },
+//     ...mapState({
+//       question02: 'answer.question02.y'
+//     })
+// }
 }
 </script>
 
@@ -52,8 +62,11 @@ form #formContent {
 p {
   margin: 0;
 }
-form  textarea {
+form textarea {
   width:100%;
   height:50px;
+}
+form .question {
+  margin:10px 0;
 }
 </style>

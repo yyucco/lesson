@@ -8,7 +8,7 @@
       <div id="formContent">
         <div class="question">
           <p>-ご相談内容-</p>
-          <textarea v-model="question06"></textarea>
+          <textarea v-model="answer.question06"></textarea>
         </div><!-- question -->
       </div><!-- formContent -->
     </div><!-- formWrap -->
@@ -22,17 +22,27 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   export default { 
-    data(){
-      return {
-        question06: '',
-      } 
+    computed: {
+      ...mapState({
+        answer: 'counter'
+      })
     },
     methods: {
       prev() {  
-        this.$router.push('/');
+        const answertext = {
+          question06:this.answer.question06
+        };
+        this.$store.commit('addstep3', answertext); 
+        this.$router.push('/form2');
       },
-      next() {  
+      next() { 
+        const answertext = {
+          question06:this.answer.question06
+        };
+        this.$store.commit('addstep3', answertext); 
         this.$router.push('/form4');
       }
     }
