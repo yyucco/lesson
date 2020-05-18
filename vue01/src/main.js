@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 import App from './App.vue';
 import { routes } from './routes';
 import store from './store/store';
-import { sync } from 'vuex-router-sync'
+import { sync } from 'vuex-router-sync';
 
 Vue.use(VueRouter);
 

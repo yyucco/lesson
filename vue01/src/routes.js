@@ -4,8 +4,8 @@ import Form3 from './components/form3.vue';
 import Form4 from './components/form4.vue';
  
 export const routes = [
-  { path: '/', component: Form1 },
-  { path: '/form2', component: Form2 },
-  { path: '/form3', component: Form3 },
-  { path: '/form4', component: Form4 },
+  { path: '/step1', component: Form1 },
+  { path: '/step2', component: Form2 },
+  { path: '/step3', component: Form3 },
+  { path: '/Confirmation', component: Form4 },
 ];

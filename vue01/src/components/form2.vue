@@ -8,16 +8,16 @@
       <div id="formContent">
         <div class="question">
           <p>現在、生命保険に加入されていますか？</p>
-          <label v-for="( item, i ) in itemsYesNo" :key="i"><input type="radio" :value="item" v-model="answer.question03">{{ item }}</label>
+          <label v-for="( item, i ) in itemsYesNo" :key="i"><input type="radio" :value="item" v-model="state.step2.question01">{{ item }}</label>
         </div><!-- question -->
-        <div class="question" v-if="answer.question03 === 'はい'">
+        <div class="question" v-if="state.step2.question01 === 'はい'">
           <p>現在、入院中ですか？</p>
-          <label v-for="( item, i ) in itemsYesNo" :key="i"><input type="radio" :value="item" v-model="answer.question04">{{ item }}</label>
+          <label v-for="( item, i ) in itemsYesNo" :key="i"><input type="radio" :value="item" v-model="state.step2.question02">{{ item }}</label>
         </div> 
         <!-- question -->
-        <div class="question" v-if="answer.question04 === 'はい'">
+        <div class="question" v-if="state.step2.question02 === 'はい'">
           <p>過去5年以内に、入院したことはありますか？</p>
-          <label v-for="( item, i ) in itemsYesNo" :key="i"><input type="radio" :value="item" v-model="answer.question05">{{ item }}</label>
+          <label v-for="( item, i ) in itemsYesNo" :key="i"><input type="radio" :value="item" v-model="state.step2.question03">{{ item }}</label>
         </div> 
         <!-- question -->
       </div><!-- formContent -->
@@ -42,27 +42,15 @@
     },
     computed: {
       ...mapState({
-        answer: 'counter'
+          state: 'form'
       })
     },
     methods: {
       prev() {  
-        let answertext = {
-          question03:this.answer.question03,
-          question04:this.answer.question04,
-          question05:this.answer.question05
-        };
-       this.$store.commit('addstep2', answertext); 
-        this.$router.push('/');
+        this.$router.push('/step1');
       },
       next() { 
-        let answertext = {
-          question03:this.answer.question03,
-          question04:this.answer.question04,
-          question05:this.answer.question05
-        };
-       this.$store.commit('addstep2', answertext); 
-        this.$router.push('/form3');
+        this.$router.push('/step3');
       }
     }
   }

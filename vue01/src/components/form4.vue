@@ -8,27 +8,27 @@
       <div id="formContent">
         <div class="question">
           <p>-性別-</p>
-          <p>{{ answer.question01 }}</p>
+          <p>{{ state.step1.gender }}</p>
         </div><!-- question -->
         <div class="question">
           <p>-生年月日-</p>
-          <p>{{ answer.question02.y }}年{{ answer.question02.m }}月{{ answer.question02.d }}日</p>
+          <p>{{ state.step1.birathday.year }}年{{ state.step1.birathday.month }}月{{ state.step1.birathday.day }}日</p>
         </div><!-- question -->
         <div class="question">
           <p>-現在、生命保険に加入されていますか？-</p>
-          <p>{{ answer.question03 }}</p>
+          <p>{{ state.step2.question01 }}</p>
         </div><!-- question -->
         <div class="question">
           <p>-現在、入院中ですか？-</p>
-          <p>{{ answer.question04 }}</p>
+          <p>{{ state.step2.question02 }}</p>
         </div><!-- question -->
         <div class="question">
           <p>-過去5年以内に、入院したことはありますか？-</p>
-          <p>{{ answer.question05 }}</p>
+          <p>{{ state.step2.question03 }}</p>
         </div><!-- question -->
         <div class="question">
           <p>-ご相談内容-</p>
-          <p>{{ answer.question06 }}</p>
+          <p>{{ state.step3.consultation }}</p>
         </div><!-- question -->
       </div><!-- formContent -->
     </div><!-- formWrap -->
@@ -47,12 +47,12 @@
   export default { 
     computed: {
       ...mapState({
-        answer: 'counter'
+          state: 'form'
       })
     },
     methods: {
       prev() {  
-        this.$router.push('/form3');
+        this.$router.push('/step3');
       },
       next() { 
       

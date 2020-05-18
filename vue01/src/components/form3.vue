@@ -8,7 +8,7 @@
       <div id="formContent">
         <div class="question">
           <p>-ご相談内容-</p>
-          <textarea v-model="answer.question06"></textarea>
+          <textarea v-model="state.step3.consultation"></textarea>
         </div><!-- question -->
       </div><!-- formContent -->
     </div><!-- formWrap -->
@@ -27,23 +27,15 @@
   export default { 
     computed: {
       ...mapState({
-        answer: 'counter'
+          state: 'form'
       })
     },
     methods: {
-      prev() {  
-        const answertext = {
-          question06:this.answer.question06
-        };
-        this.$store.commit('addstep3', answertext); 
-        this.$router.push('/form2');
+      prev() { 
+        this.$router.push('/step2');
       },
       next() { 
-        const answertext = {
-          question06:this.answer.question06
-        };
-        this.$store.commit('addstep3', answertext); 
-        this.$router.push('/form4');
+        this.$router.push('/Confirmation');
       }
     }
   }
