@@ -2,27 +2,21 @@
   <div id="app">
     <vue-header></vue-header>
     <router-view></router-view>
+ 
   </div>
 </template>
 
 <script>
 import VueHeader from './components/header.vue';
-// import { mapState } from 'vuex';
 
 export default {
   components: {
     VueHeader
-  },
- computed: {
-    // message () {
-    //   return this.$store.state.counter.question02.y;
-    // }
- },
-//     ...mapState({
-//       question02: 'answer.question02.y'
-//     })
-// }
+  }
+
 }
+
+
 </script>
 
 <style>

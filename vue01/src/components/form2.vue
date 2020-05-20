@@ -8,16 +8,16 @@
       <div id="formContent">
         <div class="question">
           <p>現在、生命保険に加入されていますか？</p>
-          <label v-for="( item, i ) in itemsYesNo" :key="i"><input type="radio" :value="item" v-model="state.step2.question01">{{ item }}</label>
+          <label v-for="( item, i ) in  $definitions.itemsYesNo" :key="i"><input type="radio" :value="item" v-model="question[0]">{{ item }}</label>
         </div><!-- question -->
-        <div class="question" v-if="state.step2.question01 === 'はい'">
+        <div class="question" v-if="question[0] === 'はい'">
           <p>現在、入院中ですか？</p>
-          <label v-for="( item, i ) in itemsYesNo" :key="i"><input type="radio" :value="item" v-model="state.step2.question02">{{ item }}</label>
+          <label v-for="( item, i ) in  $definitions.itemsYesNo" :key="i"><input type="radio" :value="item" v-model="question[1]">{{ item }}</label>
         </div> 
         <!-- question -->
-        <div class="question" v-if="state.step2.question02 === 'はい'">
+        <div class="question" v-if="question[1] === 'はい'">
           <p>過去5年以内に、入院したことはありますか？</p>
-          <label v-for="( item, i ) in itemsYesNo" :key="i"><input type="radio" :value="item" v-model="state.step2.question03">{{ item }}</label>
+          <label v-for="( item, i ) in  $definitions.itemsYesNo" :key="i"><input type="radio" :value="item" v-model="question[2]">{{ item }}</label>
         </div> 
         <!-- question -->
       </div><!-- formContent -->
@@ -32,25 +32,38 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-
   export default { 
     data(){
       return {
-        itemsYesNo: [ 'はい', 'いいえ' ]
+        question: [
+          this.$store.getters.getState[1].question[0],
+          this.$store.getters.getState[1].question[1],
+          this.$store.getters.getState[1].question[2]
+        ]
       } 
     },
-    computed: {
-      ...mapState({
-          state: 'form'
-      })
+    computed:{
+      setData:function () {
+       return {
+         num:1,
+         data:{
+          question:[
+            this.question[0], 
+            this.question[1], 
+            this.question[2]
+          ]
+         }
+        }
+      }
     },
     methods: {
-      prev() {  
-        this.$router.push('/step1');
+      prev() {
+        this.$store.commit('setQuestion',this.setData);  
+        this.$router.push('/basicdate');
       },
       next() { 
-        this.$router.push('/step3');
+        this.$store.commit('setQuestion',this.setData);  
+        this.$router.push('/consultation');
       }
     }
   }

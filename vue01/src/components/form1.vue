@@ -1,4 +1,5 @@
 <template>
+
   <form action="" >
     <div id="formWrap">
       <div id="formTitle">
@@ -8,26 +9,25 @@
       <div id="formContent">
         <div class="question">
           <p>-性別-</p>
-          <label v-for="( item, i ) in genderitems" :key="i"><input type="radio" :value="item" v-model="state.step1.gender">{{ item }}</label>
+          <label v-for="( item, i ) in $definitions.genderitems" :key="i"><input type="radio" :value="item" v-model="gender">{{ item }}</label>
         </div><!-- question -->
         <div class="question">
           <p>-生年月日-</p>
           <label>
-            <select v-model="state.step1.birathday.year">
-              <option v-for="year in 34" :key="year" :value="1966 + year">
-                <span v-if="year &lt; 23">{{ 1966 + year }} ( 昭和 {{ 41 + year }} )</span>
-                <span v-else>{{ 1966 + year }} ( 平成 {{ year - 22 }} )</span>
-                </option>
+            <select v-model="birathday.year">
+              <option v-for="(beforeYear, index)  in 34" :key="beforeYear" :value="$definitions.seirekiYear(index)">
+                <span >{{ $definitions.seirekiYear(index) }} ( {{ $definitions.warekiYear(index) }} )</span>
+              </option> 
             </select>年
           </label>
       
           <label>
-            <select v-model="state.step1.birathday.month">
+            <select v-model="birathday.month">
               <option v-for="month in 12" :key="month" :value=" month">{{ month }}</option>
             </select>月
           </label>
           <label>
-            <select v-model="state.step1.birathday.day">
+            <select v-model="birathday.day">
               <option v-for="day in 31" :key="day" :value="day">{{ day }}</option>
             </select>日
           </label>
@@ -43,24 +43,32 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
- 
+
   export default { 
     data(){
       return {
-        genderitems: [ '女性', '男性' ]
+        gender: this.$store.getters.getState[0].gender, 
+        birathday:{ 
+          year: this.$store.getters.getState[0].birathday.year,
+          month: this.$store.getters.getState[0].birathday.month,
+          day: this.$store.getters.getState[0].birathday.day
+        }
       } 
     },
-    computed: {
-        ...mapState({
-          state: 'counter'
-        })
-      },
+    computed:{
+      setData:function () {
+        return {
+          num:0,
+          data:{
+            gender: this.gender, birathday:{ year:this.birathday.year, month:this.birathday.month, day:this.birathday.day }
+          }
+        }
+      }
+    },
     methods: {
-      next() {  
-
-      //  this.$store.commit('setQuestion');  
-        this.$router.push('/step2');
+      next: function () {
+        this.$store.commit('setQuestion',this.setData);  
+        this.$router.push('/question');
       }
     }
   }

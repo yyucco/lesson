@@ -1,10 +1,23 @@
-const state = {
-  step1: { gender: '', birathday:{ year:1967, month:1, day:1 } },
-  step2: { question01: '', question02: '', question03: '',},
-  step3: { consultation: ''}
-};
+const state = [
+  { gender: '', birathday: { year:1967, month:1, day:1 } },
+  { question:['','','' ] },
+  { consultation: ''}
+]
 
- 
+const mutations = {
+  setQuestion (state,setData) {
+      state[setData.num] = setData.data;
+  }
+}
+
+const getters = {	
+    getState: state => {	
+      return state;	
+    }	
+  }
+  
 export default {
-  state
+  state,
+  mutations,
+  getters
 }
