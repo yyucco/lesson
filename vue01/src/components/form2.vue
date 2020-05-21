@@ -8,16 +8,16 @@
       <div id="formContent">
         <div class="question">
           <p>現在、生命保険に加入されていますか？</p>
-          <label v-for="( item, i ) in itemsYesNo" :key="i"><input type="radio" :value="item" v-model="question03">{{ item }}</label>
+          <label v-for="( item, i ) in  $definitions.itemsYesNo" :key="i"><input type="radio" :value="item" v-model="question[0]">{{ item }}</label>
         </div><!-- question -->
-        <div class="question" v-if="this.question03 === 'はい'">
+        <div class="question" v-if="question[0] === 'はい'">
           <p>現在、入院中ですか？</p>
-          <label v-for="( item, i ) in itemsYesNo" :key="i"><input type="radio" :value="item" v-model="question04">{{ item }}</label>
+          <label v-for="( item, i ) in  $definitions.itemsYesNo" :key="i"><input type="radio" :value="item" v-model="question[1]">{{ item }}</label>
         </div> 
         <!-- question -->
-        <div class="question" v-if="this.question04 === 'はい'">
+        <div class="question" v-if="question[1] === 'はい'">
           <p>過去5年以内に、入院したことはありますか？</p>
-          <label v-for="( item, i ) in itemsYesNo" :key="i"><input type="radio" :value="item" v-model="question05">{{ item }}</label>
+          <label v-for="( item, i ) in  $definitions.itemsYesNo" :key="i"><input type="radio" :value="item" v-model="question[2]">{{ item }}</label>
         </div> 
         <!-- question -->
       </div><!-- formContent -->
@@ -35,18 +35,35 @@
   export default { 
     data(){
       return {
-        itemsYesNo: [ 'はい', 'いいえ' ],
-        question03: '',
-        question04: '',
-        question05: '',
+        question: [
+          this.$store.getters.getState[1].question[0],
+          this.$store.getters.getState[1].question[1],
+          this.$store.getters.getState[1].question[2]
+        ]
       } 
     },
+    computed:{
+      setData:function () {
+       return {
+         num:1,
+         data:{
+          question:[
+            this.question[0], 
+            this.question[1], 
+            this.question[2]
+          ]
+         }
+        }
+      }
+    },
     methods: {
-      prev() {  
-        this.$router.push('/');
+      prev() {
+        this.$store.commit('setQuestion',this.setData);  
+        this.$router.push('/basicdate');
       },
-      next() {  
-        this.$router.push('/form3');
+      next() { 
+        this.$store.commit('setQuestion',this.setData);  
+        this.$router.push('/consultation');
       }
     }
   }

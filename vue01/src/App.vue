@@ -2,18 +2,21 @@
   <div id="app">
     <vue-header></vue-header>
     <router-view></router-view>
+ 
   </div>
 </template>
 
 <script>
-import VueHeader from './components/header.vue'
-
+import VueHeader from './components/header.vue';
 
 export default {
   components: {
     VueHeader
   }
+
 }
+
+
 </script>
 
 <style>
@@ -52,8 +55,11 @@ form #formContent {
 p {
   margin: 0;
 }
-form  textarea {
+form textarea {
   width:100%;
   height:50px;
+}
+form .question {
+  margin:10px 0;
 }
 </style>

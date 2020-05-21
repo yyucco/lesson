@@ -8,7 +8,7 @@
       <div id="formContent">
         <div class="question">
           <p>-ご相談内容-</p>
-          <textarea v-model="question06"></textarea>
+          <textarea v-model="consultation"></textarea>
         </div><!-- question -->
       </div><!-- formContent -->
     </div><!-- formWrap -->
@@ -22,18 +22,32 @@
 </template>
 
 <script>
+
+
   export default { 
     data(){
       return {
-        question06: '',
+        consultation: this.$store.getters.getState[2].consultation
       } 
     },
+    computed:{
+      setData:function () {
+       return {
+          num:2,
+          data:{
+            consultation:this.consultation
+          }
+        }
+      }
+    },
     methods: {
-      prev() {  
-        this.$router.push('/');
+      prev() {
+        this.$store.commit('setQuestion',this.setData);  
+        this.$router.push('/question');
       },
-      next() {  
-        this.$router.push('/form4');
+      next: function () {
+        this.$store.commit('setQuestion',this.setData);  
+        this.$router.push('/confirmation');
       }
     }
   }

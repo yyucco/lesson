@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
  
-import counter from './modules/counter';
- 
+import form from './modules/form';
+
 Vue.use(Vuex);
  
 export default new Vuex.Store({
   modules: {
-    counter
+    form,
+   
   }
 });

@@ -1,4 +1,5 @@
 <template>
+
   <form action="" >
     <div id="formWrap">
       <div id="formTitle">
@@ -8,25 +9,25 @@
       <div id="formContent">
         <div class="question">
           <p>-性別-</p>
-          <label v-for="( item, i ) in question01items" :key="i"><input type="radio" :value="item" v-model="question01">{{ item }}</label>
+          <label v-for="( item, i ) in $definitions.genderitems" :key="i"><input type="radio" :value="item" v-model="gender">{{ item }}</label>
         </div><!-- question -->
         <div class="question">
           <p>-生年月日-</p>
           <label>
-            <select v-model="selectedY">
-              <option v-for="year in 34" :key="year" :value="1966 + year">
-                <span v-if="year &lt; 23">{{ 1966 + year }} ( 昭和 {{ 41 + year }} )</span>
-                <span v-else>{{ 1966 + year }} ( 平成 {{ year - 22 }} )</span>
-                </option>
+            <select v-model="birathday.year">
+              <option v-for="(beforeYear, index)  in 34" :key="beforeYear" :value="$definitions.seirekiYear(index)">
+                <span >{{ $definitions.seirekiYear(index) }} ( {{ $definitions.warekiYear(index) }} )</span>
+              </option> 
             </select>年
           </label>
+      
           <label>
-            <select v-model="selectedM">
+            <select v-model="birathday.month">
               <option v-for="month in 12" :key="month" :value=" month">{{ month }}</option>
             </select>月
           </label>
           <label>
-            <select v-model="selectedD">
+            <select v-model="birathday.day">
               <option v-for="day in 31" :key="day" :value="day">{{ day }}</option>
             </select>日
           </label>
@@ -42,24 +43,32 @@
 </template>
 
 <script>
+
   export default { 
     data(){
       return {
-        question01items: [ '女性', '男性' ],
-        question01: '',
-        selectedY:'1967',
-        selectedM:'1',
-        selectedD:'1',
+        gender: this.$store.getters.getState[0].gender, 
+        birathday:{ 
+          year: this.$store.getters.getState[0].birathday.year,
+          month: this.$store.getters.getState[0].birathday.month,
+          day: this.$store.getters.getState[0].birathday.day
+        }
       } 
     },
+    computed:{
+      setData:function () {
+        return {
+          num:0,
+          data:{
+            gender: this.gender, birathday:{ year:this.birathday.year, month:this.birathday.month, day:this.birathday.day }
+          }
+        }
+      }
+    },
     methods: {
-      next() {  
-        // const statetext = {
-        //   question01:this.question01check,
-        //   question02:{ y:this.selectedY, m:this.selectedM, d:this.selectedD}
-        // };
-        // this.$store.commit('add',statetext);  
-        this.$router.push('/form2');
+      next: function () {
+        this.$store.commit('setQuestion',this.setData);  
+        this.$router.push('/question');
       }
     }
   }

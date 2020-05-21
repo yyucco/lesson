@@ -3,7 +3,11 @@ import VueRouter from 'vue-router';
 import App from './App.vue';
 import { routes } from './routes';
 import store from './store/store';
-import { sync } from 'vuex-router-sync'
+import { sync } from 'vuex-router-sync';
+
+import definitions from './definitions';
+Vue.prototype.$definitions = definitions;
+
 
 Vue.use(VueRouter);
 
@@ -19,3 +23,7 @@ new Vue({
   store,
   render: h => h(App)
 })
+
+
+
+

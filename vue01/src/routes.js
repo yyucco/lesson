@@ -1,9 +1,11 @@
-import Form1 from './components/form1.vue';
-import Form2 from './components/form2.vue';
-import Form3 from './components/form3.vue';
+import basicdate from './components/form1.vue';
+import question from './components/form2.vue';
+import consultation from './components/form3.vue';
+import confirmation from './components/form4.vue';
  
 export const routes = [
-  { path: '/', component: Form1 },
-  { path: '/form2', component: Form2 },
-  { path: '/form3', component: Form3 },
+  { path: '/basicdate', component: basicdate },
+  { path: '/question', component: question },
+  { path: '/consultation', component: consultation },
+  { path: '/confirmation', component: confirmation },
 ];
