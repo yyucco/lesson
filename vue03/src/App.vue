@@ -3,12 +3,12 @@
     <h1>Todoリスト</h1>
 
     <div>
-      <label><input type="radio" checked="checked">全て</label>
-      <label><input type="radio">作業中</label>
-      <label><input type="radio">完了</label>
+      <label><input type="radio" v-model="picked" value="all">全て</label>
+      <label><input type="radio" v-model="picked" value="doing">作業中</label>
+      <label><input type="radio" v-model="picked" value="done">完了</label>
     </div>
 
-    <table v-if="this.getState.todos[0]">
+    <table v-if="this.getTodos[0]">
       <thead>
         <tr>
           <th>ID</th>
@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(value, index) in this.getState.todos" :key="index">
+        <tr v-for="(value, index) in this.getTodos" :key="index">
           <td>{{ index }}</td>
           <td>{{ value.task }}</td>
           <td><button>{{ value.status }}</button></td>
@@ -30,7 +30,6 @@
     <h2>新規タスクの追加</h2>
     <input type="text" v-model="taskText">
     <button @click="addTask">追加</button>
-
   </div><!-- app -->
 </template>
 
@@ -41,21 +40,22 @@ export default {
     return {
       taskText: '',
       statusText: '作業中',
+      picked: 'all'
     }
   },
   computed: {
   ...mapGetters([
-    'getState'
+    'getTodos'
     ]),
     todo(){
-      const todo = { task:this.taskText, status:this.statusText };
+      const todo = {task: this.taskText, status: this.statusText};
       return todo;
     }
   },
-  methods:{
+  methods: {
     addTask() {
-      this.$store.commit('setTodos',this.todo);
-      this.taskText ='';
+      this.$store.commit('setTodos', this.todo);
+      this.taskText = '';
     }
   }
 }

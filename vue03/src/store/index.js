@@ -5,18 +5,18 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    todos:[ ]
+    todos: []
   },
   mutations: {
-    setTodos (state,setDate) {
-      state.todos.push( setDate );
+    setTodos(state, setTodo) {
+      state.todos.push(setTodo);
     }
   },
   actions: {
   },
   getters: {
-    getState: state => {	
-      return state;	
+    getTodos: state => {	
+      return state.todos;	
     }	
   },
   modules: {
