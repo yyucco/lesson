@@ -22,7 +22,7 @@
           <td>{{ index }}</td>
           <td>{{ value.task }}</td>
           <td><button>{{ value.status }}</button></td>
-          <td><button>削除</button></td>
+          <td><button @click="deleteTask(index)">削除</button></td>
         </tr>
       </tbody>
     </table>
@@ -56,7 +56,10 @@ export default {
     addTask() {
       this.$store.commit('setTodos', this.todo);
       this.taskText = '';
-    }
+    },
+    deleteTask(index){
+      this.$store.commit('deleteTodos', index);
+    },
   }
 }
 </script>

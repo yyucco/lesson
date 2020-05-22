@@ -10,6 +10,9 @@ export default new Vuex.Store({
   mutations: {
     setTodos(state, setTodo) {
       state.todos.push(setTodo);
+    },
+    deleteTodos(state, index) {
+      state.todos.splice(index, 1);
     }
   },
   actions: {
