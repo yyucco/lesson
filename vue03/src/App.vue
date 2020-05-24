@@ -21,7 +21,7 @@
         <tr v-for="(value, index) in this.getTodos" :key="index">
           <td>{{ index }}</td>
           <td>{{ value.task }}</td>
-          <td><button>{{ value.status }}</button></td>
+          <td><button @click="statusTask(index)">{{ value.status }}</button></td>
           <td><button @click="deleteTask(index)">削除</button></td>
         </tr>
       </tbody>
@@ -60,6 +60,9 @@ export default {
     deleteTask(index){
       this.$store.commit('deleteTodos', index);
     },
+    statusTask(index){
+      this.$store.commit('statusTodos', index);
+    }
   }
 }
 </script>
