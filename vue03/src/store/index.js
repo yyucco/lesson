@@ -14,7 +14,7 @@ export default new Vuex.Store({
     deleteTodos(state, index) {
       state.todos.splice(index, 1);
     },
-    statusTodos(state, index) {
+    changeStatus(state, index) {
       state.todos[index].status =
       state.todos[index].status === '作業中' ? '完了' : '作業中';
     },

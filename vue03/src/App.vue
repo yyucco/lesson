@@ -61,7 +61,7 @@ export default {
       this.$store.commit('deleteTodos', index);
     },
     statusTask(index){
-      this.$store.commit('statusTodos', index);
+      this.$store.commit('changeStatus', index);
     }
   }
 }
