@@ -48,10 +48,7 @@ export default {
     ...mapGetters({
       getTodos: 'moduleB/getTodos'    
     }),
-    todo(){
-      const todo = {task: this.taskText, status: this.statusText};
-      return todo;
-    },
+
     todos(){
       let todos = this.getTodos.allTodos;
       if(this.picked === 'doing') {
@@ -64,7 +61,8 @@ export default {
   },
   methods: {
     addTask() {
-      this.$store.dispatch('moduleB/addTask', this.todo);
+      const todo = {task: this.taskText, status: this.statusText};
+      this.$store.dispatch('moduleB/addTask', todo);
       this.taskText = '';
     },
     deleteTask(index) {
