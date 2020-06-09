@@ -66,7 +66,7 @@ export const getters = {
     return state.login;
   },
   getName(state){
-    const docRef = collectionUsers.doc(state.uid);
+    const docRef = db.collection('users').doc(state.uid);
     let docData= new Array();
     docRef.get().then(function(doc) {
       docData.push(doc.data());
