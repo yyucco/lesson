@@ -11,7 +11,12 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
+    "firebase": "^7.14.6",
+    "firebase-admin": "^8.12.1",
     "nuxt": "^2.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "main": "nuxt.config.js",
+  "license": "ISC"
 }
