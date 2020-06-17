@@ -44,7 +44,8 @@ export default {
       if(this.btnActive){
         return;
       }
-      this.$store.dispatch('signup', {name:this.name, email: this.email, password: this.password})
+      this.$store.dispatch('signup', {name:this.name, email: this.email, password: this.password});
+      this.$router.push('/');
     },
   }
 }

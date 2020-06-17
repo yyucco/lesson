@@ -29,6 +29,7 @@ export default {
   */
   plugins: [
     '~/plugins/firebase.js',
+    { src: '~/plugins/router.js', ssr: false },
   ],
   /*
   ** Nuxt.js dev-modules
@@ -42,7 +43,6 @@ export default {
     '@nuxtjs/dotenv',
   ],
   router: {
-    middleware: 'authenticated'
   },
   /*
   ** Build configuration

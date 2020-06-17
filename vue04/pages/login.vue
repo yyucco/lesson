@@ -21,7 +21,10 @@
 
 <script>
 import Logo from '~/components/Logo.vue'
+import { firebase, auth, db } from '@/plugins/firebase'    
+
 export default {
+  meta: {requiresAuth: true },
   components: {
     Logo
   },
@@ -47,6 +50,7 @@ export default {
       }
       this.$store.dispatch('login', {email: this.email, password: this.password});
       this.error = this.$store.getters.error;
+      this.$router.push('/');
     },
   }
 }

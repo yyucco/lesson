@@ -1,18 +1,26 @@
 import  { firebase, auth, db } from '@/plugins/firebase'
 
 export const state = () => ({
-  user: {},
-  uid:'EwrBJ10YVFZi6vhtjuWwVaQ5XHB2',
+  uid:'',
+  name: '',
+  money: 0,
   login: false,
   error:'',
  })
 
  export const mutations = {
-  loginID (state, uid) {
-    state.uid = uid; 
-  },
-  switchLogin (state,bool) {
-    state.login = bool;
+  usres (state, user) {
+    if (user) {
+      state.uid = user.uid;
+      state.name = user.displayName;
+      state.money = user.money;    
+      state.login = true;
+    } else {
+      state.uid = '';
+      state.name = '';
+      state.money = '';  
+      state.login = false;  
+    }
   },
   error (state,txet) {
     state.error = txet;
@@ -20,60 +28,49 @@ export const state = () => ({
 }
 
 export const actions = {
+
+  //changedUser
+  changedUser({ commit },user) {
+      console.log(user);
+      if(user){
+        commit('usres', user);
+      }
+  },
   // login
   login({ commit }, getUserData) {
-    auth.signInWithEmailAndPassword(getUserData.email, getUserData.password)
-    .then(user => {
-      auth.onAuthStateChanged(function (user) {
-        commit('loginID', user.uid);
-        commit('switchLogin',true );
-        console.log('login成功！');
-      });
-    })
-    .then(()=>{
-      this.$router.push('/');
-    })
-    .catch((error) => {
-      console.log('login失敗');
-      commit('login失敗', error.message);
-    })
+    auth.signInWithEmailAndPassword(getUserData.email, getUserData.password);
   },
   // signup
   signup({ commit }, getUserData) {
     auth.createUserWithEmailAndPassword(getUserData.email, getUserData.password)
     .then(user => {
-      const uid = user.user.uid;
-      console.log( getUserData.name);
+      let uid = user.user.uid;
+      user.user.updateProfile({
+        displayName: getUserData.name,
+      });
       db.collection('users').doc(uid).set({
         name: getUserData.name,
         money: 0
       }); 
       console.log('signup成功！');
-      this.$router.push('/login');
     })
     .catch(function(error) {
-      console.log('signup失敗');
+      console.log('signup失敗'+ error);
       commit('error',"signup失敗:", error.message);
     });
   },
 }
 
 export const getters = {
+  getStateLogin (state) {
+  
+    return state.login;
+  },
   error (state) {
     return state.error;
   },
-  isAuthenticated (state) {
-    return state.login;
-  },
-  getName(state){
-    const docRef = db.collection('users').doc(state.uid);
-    let docData= new Array();
-    docRef.get().then(function(doc) {
-      docData.push(doc.data());
-      console.log("getName成功!");
-    }).catch(function(error) {
-      console.log("getName失敗:", error);
-    });
-    return docData;
+  getName (state) {
+    return state.name;
   }
 }
+
