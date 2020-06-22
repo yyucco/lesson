@@ -28,6 +28,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/firebase.js',
+    { src: '~/plugins/router.js', ssr: false },
   ],
   /*
   ** Nuxt.js dev-modules
@@ -38,7 +40,10 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/dotenv',
   ],
+  router: {
+  },
   /*
   ** Build configuration
   */
@@ -50,3 +55,4 @@ export default {
     }
   }
 }
+
