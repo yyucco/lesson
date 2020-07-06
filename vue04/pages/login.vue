@@ -22,6 +22,7 @@
 <script>
 import Logo from '~/components/Logo.vue'
 import { firebase, auth, db } from '@/plugins/firebase'    
+import { mapGetters } from 'vuex'
 
 export default {
   meta: {requiresAuth: true },
@@ -32,7 +33,6 @@ export default {
     return {
       email: '',
       password: '',
-      error:'',
     }
   },
   computed :{
@@ -41,16 +41,22 @@ export default {
         return false;
       } 
       return true;
-    }
+    },
+    ...mapGetters([
+      'error'
+    ]),
   },
   methods : {
     login () {
       if(this.btnActive){
         return;
       }
-      this.$store.dispatch('login', {email: this.email, password: this.password});
-      this.error = this.$store.getters.error;
-      this.$router.push('/');
+    auth.signInWithEmailAndPassword(this.email, this.password) 
+    .then(firebaseUser => {
+      return this.$store.dispatch('login',firebaseUser.user.uid);
+    })
+    .then(() => this.$router.push('/'))
+    .catch((error) => this.$store.commit('error',error))
     },
   }
 }
