@@ -1,75 +1,59 @@
 import  { firebase, auth, db } from '@/plugins/firebase'
+import {getUserFromCookie, getUserFromSession} from '@/helpers'
+
+import Cookies from 'js-cookie'
 
 export const state = () => ({
-  currentUser: {},
+  currentUserUid: '',
   login: false,
   error: '',
+
  })
 
  export const mutations = {
-  currentUser (state, currentUser) {
-    if (currentUser) {
-      state.currentUser = {uid:currentUser.uid, name:currentUser.docdata.name,money:currentUser.docdata.money }; 
-      state.login = true;
-    } else {
-      state.currentUser = {}; 
-      state.login = false;  
-    }
+  setcurrentUserUid (state, currentUserUid) {
+    state.currentUserUid = currentUserUid
+    state.login = (currentUserUid)? true : false;
   },
-  error (state,txet) {
-    state.error = txet;
+  error (state,errormessege) {
+    state.error = errormessege;
   }
 }
 
 export const actions = {
-  //logout
-  logout({ commit }) {
-    auth.signOut()
-    commit('currentUser', null);
-  },
-  //changedUser
-  changedUser({ commit }, user) {
-    if(user){
-      db.collection('users').doc(user.uid).get()
-        .then(doc => {
-          commit('currentUser', {uid:user.uid,docdata:doc.data()});
-        })
-        .catch(err => {
-          console.log('Error getting document', err);
-        });
+ //クッキー
+  async nuxtServerInit ({ commit }, { req }) {
+    const user = getUserFromCookie(req)
+    if(user) {
+      await commit('setcurrentUserUid', user.user_id);
+    } else {
+      await commit('setcurrentUserUid',  null);
     }
   },
-  // login
-  login({ commit }, getUserData) {
-    auth.signInWithEmailAndPassword(getUserData.email, getUserData.password);
+  //ログアウト
+  async logout({ commit }) {  
+    auth.signOut() 
+    Cookies.remove('access_token'); 
+    commit('setcurrentUserUid', null);
   },
-  // signup
-  signup({ commit }, getUserData) {
-    auth.createUserWithEmailAndPassword(getUserData.email, getUserData.password)
-    .then(user => {
-      let uid = user.user.uid;
-      db.collection('users').doc(uid).set({
-        name: getUserData.name,
-        money: 500
-      }); 
-      console.log('signup成功！');
-    })
-    .catch(function(error) {
-      console.log('signup失敗'+ error);
-      commit('error',"signup失敗:", error.message);
-    });
+  //ログイン
+  async login({commit}, user) {
+    const token = await auth.currentUser.getIdToken(true) 
+    Cookies.set('access_token', token)  
+    await commit('setcurrentUserUid', user)
   },
 }
 
 export const getters = {
-  getStateLogin (state) {
-    return state.login;
-  },
   error (state) {
     return state.error;
   },
-  getCurrentUser (state) {
-    return state.currentUser;
+  getCurrentUserUid (state) {
+    if (state.login && state.currentUserUid) return state.currentUserUid
+    else return null
+  },
+  isAuthenticated(state) {
+    return !!state.login && !!state.currentUserUid
   }
 }
 
